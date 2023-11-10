@@ -1,0 +1,29 @@
+
+path: ./data
+train:
+  - Set1Part0/images
+val:
+  - Set1Part0/images
+
+# Classes
+names:
+  0: PRIORITY_ROAD
+  1: PASS_EITHER_SIDE
+  2: PASS_RIGHT_SIDE
+  3: GIVE_WAY
+  4: 70_SIGN
+  5: 90_SIGN
+  6: OTHER
+  7: 80_SIGN
+  8: 50_SIGN
+  9: PEDESTRIAN_CROSSING
+  10: 60_SIGN
+  11: 30_SIGN
+  12: NO_PARKING
+  13: PASS_LEFT_SIDE
+  14: 110_SIGN
+  15: STOP
+  16: 100_SIGN
+  17: NO_STOPPING_NO_STANDING
+  18: URDBL
+  19: 120_SIGN
