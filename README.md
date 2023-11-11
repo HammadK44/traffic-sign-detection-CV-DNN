@@ -119,8 +119,8 @@ Following are the evaluation metrics using the training dataset, as well as the 
 | URDBL                    | 1970   | 12        | 1     | 0     | 0.0274 | 0.0138 |
 | 120_SIGN                 | 1970   | 92        | 1     | 0.998 | 0.995  | 0.699  |
 
-![Confusion Matrix](./results/results_train_metrics.png)
-![PR-Curve](./results/results_train_metrics.png)
+![Confusion Matrix](./results/confusion_matrix.png)
+![PR-Curve](./results/PR_curve.png)
 
 
 ### 2. Inference Results on Train Dataset
