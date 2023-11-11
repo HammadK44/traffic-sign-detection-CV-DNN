@@ -131,7 +131,8 @@ Following are the evaluation metrics using the training dataset, as well as the 
 
 ### 3. Test Dataset Evaluation Metrics
 
-![Training Metrics](./results/results_train_metrics.png)
+Following are the evaluation metrics using the testing dataset. As can be seen, the results on using the test dataset are not as good as when using the train dataset. This means that the model may be overfitting to the training data, and its performance on unseen data, represented by the test dataset, is not as robust. Several factors could contribute to this discrepancy, such as the diversity of the test set, differences in lighting conditions, or variations in traffic sign poses.
+
 
 | Class                    | Images | Instances |   P    |   R    | mAP50  |
 |--------------------------|--------|-----------|-------|-------|--------|
@@ -151,7 +152,6 @@ Following are the evaluation metrics using the training dataset, as well as the 
 | 100_SIGN                 | 1807   | 108       | 0.408 | 0.467 | 0.398  | 0.295  |
 | NO_STOPPING_NO_STANDING  | 1807   | 60        | 0.371 | 0.315 | 0.207  | 0.134  |
 
-Following are the evaluation metrics using the testing dataset. As can be seen, the results on using the test dataset are not as good as when using the train dataset. This means that the model may be overfitting to the training data, and its performance on unseen data, represented by the test dataset, is not as robust. Several factors could contribute to this discrepancy, such as the diversity of the test set, differences in lighting conditions, or variations in traffic sign poses.
 
 ## Training 2nd Run
 
