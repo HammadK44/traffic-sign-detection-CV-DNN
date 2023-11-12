@@ -122,12 +122,13 @@ Following are the evaluation metrics using the training dataset, as well as the 
 ![Confusion Matrix](./results/confusion_matrix.png)
 ![PR-Curve](./results/PR_curve.png)
 
-
 ### 2. Inference Results on Train Dataset
+
 ![Inference Result 1](./results/results1.png)
 ![Inference Result 2](./results/results2.png)
 ![Inference Result 3](./results/results3.png)
 ![Inference Result 4](./results/results4.png)
+
 
 ### 3. Test Dataset Evaluation Metrics
 
@@ -210,6 +211,36 @@ Then trained with 1280x1280 images shape and for 60 epochs, instead of 640x640 a
 python ./yolov5/train.py --img 1280 --batch 16 --epochs 60 --data ./yolov5/VOC.yaml --weights yolov5s.pt --workers 2
 ```
 
+## 1. Test Dataset Evaluation Metrics with Second Model
+
+As can be seen the results, the second training run, with modifications to the augmentations and an increased image size of 1280x1280 resulted in significant improvements in performance metrics compared to the initial training. The evaluation metrics on the test dataset demonstrate enhanced precision, recall, and mAP50 values across various classes. The overall performance, as indicated by the 'all' category, shows a substantial increase in precision (P), recall (R), and mean Average Precision at IoU 0.5 (mAP50). This suggests that the adjustments made to the training process have successfully addressed overfitting and improved the model's generalization to unseen data.
+
+
+| Class                    | Images | Instances |   P    |   R    | mAP50  |
+|--------------------------|--------|-----------|-------|-------|--------|
+| all                      | 1807   | 3482      | 0.714 | 0.55  | 0.608  | 0.401  |
+| PRIORITY_ROAD            | 1807   | 652       | 0.922 | 0.811 | 0.855  | 0.555  |
+| PASS_EITHER_SIDE         | 1807   | 15        | 0.592 | 0.6   | 0.503  | 0.421  |
+| PASS_RIGHT_SIDE          | 1807   | 500       | 0.882 | 0.71  | 0.781  | 0.549  |
+| GIVE_WAY                 | 1807   | 121       | 0.908 | 0.769 | 0.797  | 0.523  |
+| 70_SIGN                  | 1807   | 215       | 0.79  | 0.631 | 0.718  | 0.509  |
+| OTHER                    | 1807   | 273       | 0.662 | 0.491 | 0.543  | 0.345  |
+| 80_SIGN                  | 1807   | 193       | 0.585 | 0.301 | 0.446  | 0.298  |
+| 50_SIGN                  | 1807   | 193       | 0.695 | 0.437 | 0.588  | 0.405  |
+| PEDESTRIAN_CROSSING      | 1807   | 928       | 0.946 | 0.706 | 0.788  | 0.524  |
+| 30_SIGN                  | 1807   | 9         | 0.114 | 0.111 | 0.0606 | 0.0219 |
+| NO_PARKING               | 1807   | 158       | 0.804 | 0.671 | 0.745  | 0.43   |
+| STOP                     | 1807   | 57        | 0.83  | 0.526 | 0.622  | 0.318  |
+| 100_SIGN                 | 1807   | 108       | 0.628 | 0.546 | 0.641  | 0.435  |
+| NO_STOPPING_NO_STANDING  | 1807   | 60        | 0.641 | 0.388 | 0.42   | 0.281  |
+
+
+## 2. Test Dataset Inference Results with Second Model
+
+![Inference Result 1](./results/results1_test.png)
+![Inference Result 2](./results/results2_test.png)
+![Inference Result 3](./results/results3_test.png)
+
 ## Trained Model
 
 The trained model can be used directly for inference. Model file can be found in the specified *model_path*, and the following script can be used to run the inference. 
@@ -222,7 +253,7 @@ import cv2
 import random
 import os 
 
-model_path = './trained_model/best.pt'
+model_path = './trained_model/best_final.pt'
 model = torch.hub.load('ultralytics/yolov5', 'custom', path=model_path, force_reload=True)
 
 imgs = os.listdir('./data/Set1Part0/images')
