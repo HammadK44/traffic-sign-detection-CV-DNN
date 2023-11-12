@@ -1,6 +1,6 @@
 # Swedish Traffic Signs Detection using YOLOv5
 
-This project focuses on detecting and classifying traffic signs in the **Swedish Traffic Sign Dataset (STSD)** using the YOLOv5 object detection model. This pipeline involves data processing, YOLO format conversion, model training, and inference.
+This project focuses on detecting and classifying traffic signs in the [**Swedish Traffic Sign Dataset (STSD)**](https://www.cvl.isy.liu.se/en/research/datasets/traffic-signs-dataset/download/) using the [**YOLOv5**](https://github.com/ultralytics/yolov5) object detection model. This pipeline involves data processing, YOLO format conversion, model training, and inference.
 
 ## Dataset
 
