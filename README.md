@@ -56,7 +56,7 @@ cp ./VOC.yaml ./yolov5/VOC.yaml
 
 ### 1. Data Processing
 
-The data processing file ('*data_processing.py*') performs the following tasks:
+The data processing file, ['**data_preprocessing.py**'](https://github.com/HammadK44/traffic-sign-detection-CV-YOLOv5/blob/master/data_preprocessing.py), performs the following tasks:
 
 - Reads the dataset annotations .txt file and converts into a csv file using the '*parse_txt_annotations.py*' script.
 - Reads the annotation csv and filters out invalid bounding boxes ( [-1,-1,-1,-1] ).
@@ -77,7 +77,7 @@ python ./yolov5/train.py --img 640 --batch 16 --epochs 100 --data ./yolov5/VOC.y
 
 ## 3. Inference
 
-The inference script ('*inference.py*') uses the trained YOLOv5 model to make predictions on a set of random images. The results are displayed for visualization.
+The inference script, [**inference.py**](https://github.com/HammadK44/traffic-sign-detection-CV-YOLOv5/blob/master/inference.py), uses the trained YOLOv5 model to make predictions on a set of random images. The results are displayed for visualization.
 
 Run the inference script:
 
@@ -243,7 +243,7 @@ As can be seen the results, the second training run, with modifications to the a
 
 ## Trained Model
 
-The trained model can be used directly for inference. Model file can be found in the specified *model_path*, and the following script can be used to run the inference. 
+The trained model can be used directly for inference. Model file can be found in the specified [**model_path**](https://github.com/HammadK44/traffic-sign-detection-CV-YOLOv5/tree/master/trained_model), and the following script can be used to run the inference. 
 
 ```bash
 import torch
