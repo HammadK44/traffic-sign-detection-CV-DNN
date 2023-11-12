@@ -1,9 +1,11 @@
 
-path: ./data
+path: /kaggle/working/data
 train:
   - Set1Part0/images
 val:
   - Set1Part0/images
+test:
+  - Set2Part0/images
 
 # Classes
 names:

@@ -155,43 +155,59 @@ Following are the evaluation metrics using the testing dataset. As can be seen, 
 
 ## Training 2nd Run
 
-In light of this, training was performed a second time, by including data augmentations in the '*./yolov5/data/hyps/hyp.heavy.2.yaml*' file. Following augmentations were made:
+In light of this, training was performed a second time, by first modifying the '*.yolov5/utils/augmentations.py*' file as follows:
 
 ```bash
-lr0: 0.01  # initial learning rate (SGD=1E-2, Adam=1E-3)
-lrf: 0.2  # final OneCycleLR learning rate (lr0 * lrf) - Slightly higher value for more gradual decrease
-momentum: 0.9  # SGD momentum/Adam beta1 - Increased momentum for better convergence
-weight_decay: 0.0005  # optimizer weight decay 5e-4
-warmup_epochs: 5.0  # warmup epochs (fractions ok) - Increased warm-up for better initialization
-warmup_momentum: 0.8  # warmup initial momentum
-warmup_bias_lr: 0.1  # warmup initial bias lr
-box: 0.05  # box loss gain
-cls: 0.5  # cls loss gain
-cls_pw: 1.0  # cls BCELoss positive_weight
-obj: 1.0  # obj loss gain (scale with pixels)
-obj_pw: 1.0  # obj BCELoss positive_weight
-iou_t: 0.3  # IoU training threshold - Slightly higher value for more confident detections
-anchor_t: 3.0  # anchor-multiple threshold - Lower value for better adaptation to object sizes
-fl_gamma: 2.0  # focal loss gamma (efficientDet default gamma=1.5) - Increased gamma for more focus on hard examples
-hsv_h: 0.03  # image HSV-Hue augmentation (fraction) - Slightly higher value for more color variations
-hsv_s: 0.6  # image HSV-Saturation augmentation (fraction)
-hsv_v: 0.5  # image HSV-Value augmentation (fraction)
-degrees: 5.0  # image rotation (+/- deg) - Small rotation for better generalization
-translate: 0.2  # image translation (+/- fraction) - Increased translation for more positional variations
-scale: 0.7  # image scale (+/- gain) - Higher scale for better adaptability to different object sizes
-shear: 2.0  # image shear (+/- deg) - Slightly higher shear for more affine transformations
-perspective: 0.002  # image perspective (+/- fraction), range 0-0.001 - Small perspective change for more realistic views
-flipud: 0.5  # image flip up-down (probability)
-fliplr: 0.5  # image flip left-right (probability)
-mosaic: 1.0  # image mosaic (probability)
-mixup: 0.5  # image mixup (probability)
-copy_paste: 0.0  # segment copy-paste (probability)
+new_augm_code = """
+
+# existing code
+
+class Albumentations:
+    # YOLOv5 Albumentations class (optional, only used if package is installed)
+    def __init__(self, size=640):
+        self.transform = None
+        prefix = colorstr('albumentations: ')
+        try:
+            import albumentations as A
+            check_version(A.__version__, '1.0.3', hard=True)  # version requirement
+
+            T = [
+                A.RandomResizedCrop(height=size, width=size, scale=(0.8, 1.0), ratio=(0.9, 1.11), p=0.0),
+                A.Blur(p=0.01),
+                A.MedianBlur(p=0.01),
+                A.ToGray(p=0.01),
+                A.CLAHE(p=0.01),
+                A.RandomBrightnessContrast(p=0.0),
+                A.RandomGamma(p=0.0),
+                A.ImageCompression(quality_lower=75, p=0.0)]  # transforms
+                
+            additional_transforms = [
+                A.Rotate(limit=15, p=0.5),
+                A.ShiftScaleRotate(shift_limit=0.1, scale_limit=0.1, rotate_limit=15, p=0.5),
+                A.IAAPerspective(p=0.5),
+                A.HueSaturationValue(hue_shift_limit=10, sat_shift_limit=20, val_shift_limit=10, p=0.5),
+                A.ColorJitter(brightness=0.1, contrast=0.1, saturation=0.1, hue=0.1, p=0.5),
+                A.GaussianBlur(blur_limit=(3, 7), p=0.1),
+                A.IAAPerlinNoise(p=0.1),
+                A.RandomErasing(p=0.3),
+                A.Cutout(num_holes=1, max_h_size=8, max_w_size=8, p=0.3),
+                A.LensDistortion(distort_limit=0.2, shift_limit=0.2, p=0.3),
+                A.IAAFisheye(p=0.1)]                                             # additional transforms added
+
+            self.transform = A.Compose(T + additional_transforms, bbox_params=A.BboxParams(format='yolo', label_fields=['class_labels']))
+
+        # existing code
+
+        """
+
+with open("/kaggle/working/yolov5/utils/augmentations.py", "w") as file:
+    file.write(new_augm_code)
 ```
 
-Then trained:
+Then trained with 1280x1280 images shape and for 60 epochs, instead of 640x640 as previously done with 100 epochs:
 
 ```bash
-python ./yolov5/train.py --img 640 --batch 16 --epochs 75 --data ./yolov5/VOC.yaml --weights yolov5s.pt --workers 2 --hyp ./yolov5/data/hyps/hyp.heavy.2.yaml
+python ./yolov5/train.py --img 1280 --batch 16 --epochs 60 --data ./yolov5/VOC.yaml --weights yolov5s.pt --workers 2
 ```
 
 ## Trained Model
