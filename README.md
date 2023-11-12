@@ -45,7 +45,7 @@ mkdir data/Set2Part0/labels
 wget -P data/Set2Part0/labels http://www.isy.liu.se/cvl/research/trafficSigns/swedishSignsSummer/Set2/annotations.txt
 ```
 
-### 4. Copy STSD VOC.yaml into YOLOv5 folder
+### 4. Copy STSD [VOC.yaml](https://github.com/HammadK44/traffic-sign-detection-CV-YOLOv5/blob/master/VOC.yaml) into YOLOv5 folder
 
 ```bash
 cp ./VOC.yaml ./yolov5/VOC.yaml
