@@ -1,26 +1,68 @@
 # Swedish Traffic Signs Detection using YOLOv5
 
-This project focuses on detecting and classifying traffic signs in the [**Swedish Traffic Sign Dataset (STSD)**](https://www.cvl.isy.liu.se/en/research/datasets/traffic-signs-dataset/download/) using the [**YOLOv5**](https://github.com/ultralytics/yolov5) object detection model. This pipeline involves data processing, YOLO format conversion, model training, and inference.
+This project focuses on detecting and classifying traffic signs in the [**Swedish Traffic Sign Dataset (STSD)**](https://www.cvl.isy.liu.se/en/research/datasets/traffic-signs-dataset/download/) using traditional computer vision techniques, and then in comparison, using the YOLOv5 object detection model. [**YOLOv5**](https://github.com/ultralytics/yolov5) object detection model.
 
 ## Dataset
 
 The dataset used in this project consists of images of Swedish traffic signs along with corresponding annotations. Annotations are originally provided in a single .txt file, which includes the image names and their corresponding bounding box coordinates, sign type, sign status, sign size, sign centre, and sign aspect ratio.
 
-## Setup
+## Traditional Computer Vision
+
+In the traditional computer vision section, the code aims to detect traffic signs from the dataset images using color-based segmentation and contour analysis. The key steps and methods used:
+
+- **Color Mask Creation:**
+
+Two color masks, blue and yellow, are created using HSV color space thresholds to isolate the respective traffic sign colors. The createBlueMask and createYellowMask functions apply Gaussian blur and morphological operations to enhance the masks.
+
+- **Additional Approximation with Border Detection:**
+
+For red contours, the code approximates the contour to a polygon and checks if it has at least 5 vertices (indicating a circular sign). For white contours, the code approximates the contour to a polygon and checks if it has exactly 4 vertices (indicating a rectangular sign).
+
+- **Bounding Box Combination:**
+
+Bounding boxes obtained from contour analysis are combined based on Intersection over Union (IoU) to form more accurate representations of detected traffic signs.
+
+- **Box Filtering and Labeling:**
+
+Boxes are filtered based on their area to eliminate small and large regions that are unlikely to represent valid traffic signs.
+
+- **Image Zooming:**
+
+The zoom_image function is used to upscale the input image for better detection accuracy.
+
+- **Intersection over Union (IoU) Calculation:**
+
+The IoU between detected and annotated bounding boxes is calculated to evaluate the accuracy of the detection.
+
+- **Evaluation Metrics:**
+
+True Positive (TP), False Positive (FP), and False Negative (FN) counts are tracked for each image. Precision, Recall, F1 Score, and mean IoU across all images are computed to assess the overall performance of the traditional computer vision approach.
+
+- **Results:**
+
+```bash
+Precision: 0.0688
+Recall: 0.2054
+F1 Score: 0.1030
+mIOU for all images: 0.1310
+```
+
+![Detection](./results/output.png)
+
+## YOLOv5
+
+The achieved precision and recall values achieved from using traditional computer vision methods are relatively low, indicating a significant number of false positives (low precision) and missed detections (low recall), mainly due to challenges in handling real-world variations like occlusions and diverse sign characteristics.
+
+Recognizing these constraints, the transition to YOLOv5 is motivated by the need for a more robust and adaptive solution. The YOLOv5 Object Detection pipeline involves data processing, YOLO format conversion, model training, and inference.
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/HammadK44/traffic-sign-detection-CV-DNN.git
-cd traffic-sign-detection-CV-DNN
+git clone https://github.com/HammadK44/traffic-sign-detection-CV-YOLOv5.git
+cd traffic-sign-detection-CV-YOLOv5
 ```
 
-Clone the YOLOv5 repository into the '*traffic-sign-detection-CV-DNN*' repo.
-
-```bash
-git clone https://github.com/ultralytics/yolov5
-```
-
+Clone the YOLOv5 repository into this '*traffic-sign-detection-CV-YOLOv5*' repo.
 ### 2. Install YOLOv5 Dependencies 
 ```bash
 pip install -r yolov5/requirements.txt
